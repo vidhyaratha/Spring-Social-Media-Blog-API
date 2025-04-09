@@ -104,6 +104,26 @@ public class SocialMediaController {
 
 
 
+
+
+    //  Delete Method Handler to dleete a message by message id
+    @DeleteMapping("/messages/{message_id}")
+    public ResponseEntity<Integer> deleteAMessageGivenMessageId(@PathVariable("message_id") int msgId)
+    {
+        int deletedMessageCount = messageService.deleteMessagebyMessageId(msgId);
+        if(deletedMessageCount == 0)
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        return ResponseEntity.ok(deletedMessageCount);
+    }
+
+
+
+
+
+
+    
     
 
     // Handles the exceptions thrown by the Service 

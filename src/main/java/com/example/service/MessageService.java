@@ -64,7 +64,7 @@ public class MessageService {
 
 
 
-    //  Retrieves the message by message id and returns it even if there is no message/if it's empty
+    //  Retrieves the message by message id and returns it even if there is no message/if it's empty/if it's null
     public Message retrieveMessageById(int messageId)
     {
         Optional<Message> retrievedMessage = messageRepository.findById(messageId);
@@ -75,4 +75,22 @@ public class MessageService {
         return retrievedMessage.get();
     }
 
+
+
+
+
+
+
+    //   Deletes the message by message id and returns the number of rows that are deleted
+    public int deleteMessagebyMessageId(int messageId)
+    {
+        //Checking if the messge with the message id exists in the database
+        boolean messageExists = messageRepository.existsById(messageId); 
+        if(messageExists == true)
+        {
+           messageRepository.deleteById(messageId);
+           return 1;
+        }
+        return 0;
+    }
 }
