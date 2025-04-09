@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class MessageService {
 
 
 
+    //  Retrieves all the messages from the database and returns the list, even if the list is empty
+    public List<Message> retrieveAllMessages()
+    {
+        return messageRepository.findAll();
+    }
 
 
 
