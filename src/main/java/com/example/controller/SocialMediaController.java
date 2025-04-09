@@ -106,11 +106,11 @@ public class SocialMediaController {
 
 
 
-    //  Delete Method Handler to dleete a message by message id
+    //  Delete Method Handler to delete a message by message id
     @DeleteMapping("/messages/{message_id}")
     public ResponseEntity<Integer> deleteAMessageGivenMessageId(@PathVariable("message_id") int msgId)
     {
-        int deletedMessageCount = messageService.deleteMessagebyMessageId(msgId);
+        int deletedMessageCount = messageService.deleteMessagebyId(msgId);
         if(deletedMessageCount == 0)
         {
             return ResponseEntity.status(HttpStatus.OK).body(null);
@@ -123,18 +123,28 @@ public class SocialMediaController {
 
 
 
+
+    //   Update method Handler to update the existing message with new message by message id
+    @PatchMapping("/messages/{message_id}")
+    public ResponseEntity<Integer> updateMessageGivenMessageId(@PathVariable int message_id, @RequestBody Message newMsgText)
+    {
+        int updatedMessageCount = messageService.updateMessageById(message_id, newMsgText);
+        return ResponseEntity.ok(updatedMessageCount);
+    }
+
+
     
-    
+
+
 
     // Handles the exceptions thrown by the Service 
 
     @ExceptionHandler(DuplicateUsernameException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleDuplicateUsername(DuplicateUsernameException ex)
-    // public ResponseEntity<String> handleDuplicateUsername(DuplicateUsernameException ex)
+    public ResponseEntity<String> handleDuplicateUsername(DuplicateUsernameException ex)
     {
-       //return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists" );
-       return " Username already exists " + ex.getMessage();
+       return ResponseEntity.status(HttpStatus.CONFLICT).body("Username already exists" );
+       
     }
 
 
@@ -142,7 +152,7 @@ public class SocialMediaController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handlebadRequest(BadRequestException ex)
     {
-        return " Registration not successful " + ex.getMessage();
+        return " Request is not successful " + ex.getMessage();
     }
 
 

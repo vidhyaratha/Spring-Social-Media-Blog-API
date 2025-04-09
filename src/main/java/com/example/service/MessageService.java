@@ -68,11 +68,7 @@ public class MessageService {
     public Message retrieveMessageById(int messageId)
     {
         Optional<Message> retrievedMessage = messageRepository.findById(messageId);
-        if(retrievedMessage.isEmpty())
-        {
-            return null;
-        }
-        return retrievedMessage.get();
+        return retrievedMessage.orElse(null);
     }
 
 
@@ -82,15 +78,54 @@ public class MessageService {
 
 
     //   Deletes the message by message id and returns the number of rows that are deleted
-    public int deleteMessagebyMessageId(int messageId)
+    public int deleteMessagebyId(int messageId)
     {
-        //Checking if the messge with the message id exists in the database
+        //  If the message with the message id exists in the database, it gets deleted and returns the number of rows deleted as 1 , else returns 0
         boolean messageExists = messageRepository.existsById(messageId); 
-        if(messageExists == true)
+        if(messageExists)
         {
            messageRepository.deleteById(messageId);
            return 1;
         }
         return 0;
     }
+
+
+
+
+
+
+
+
+    //   Updates the  existing message with the new text message by message id 
+    public int updateMessageById(int msgId, Message newTextMsg)
+    {
+        /*  If the message with the message id exists in the database and if the length of new text message is less than 255 characters and is not blank,
+            then the update will be successfull and returns the nums of rows updated as 1, else throws a BadRequestException which will be handled by the @ExceptionHandler
+        */
+        boolean msgExists = messageRepository.existsById(msgId);
+        if(msgExists  &&  newTextMsg.getMessageText().length() <= 255  &&  !newTextMsg.getMessageText().isBlank())
+        {
+            Message messageToBeUpdated = messageRepository.findById(msgId).get();
+            messageToBeUpdated.setMessageText(newTextMsg.getMessageText());
+            messageRepository.save(messageToBeUpdated);
+            return 1;
+        }
+        if(!msgExists)
+        {
+            throw new BadRequestException("Message Id does not exist");
+        }
+        if(newTextMsg.getMessageText().length() > 255)
+        {
+            throw new BadRequestException("New Message text cannot be more than 255 characters");
+        }
+        if(newTextMsg.getMessageText().isBlank())
+        {
+            throw new BadRequestException(" New Text Message cannot be blank");
+        }
+        throw new BadRequestException("Update is unsuccessfull");
+        }
+       
+
+    
 }
