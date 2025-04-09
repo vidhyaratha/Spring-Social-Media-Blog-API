@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import com.example.entity.Account;
 import com.example.exception.BadRequestException;
 import com.example.exception.DuplicateUsernameException;
+import com.example.exception.UnauthorizedException;
 import com.example.service.AccountService;
 
 /**
@@ -28,13 +29,25 @@ public class SocialMediaController {
 
 
 
-    // Post Handler method to register a new user
+    // Post Method Handler method to register a new user
 
     @PostMapping("/register")
-    public ResponseEntity<Account> UserRegistration(@RequestBody Account newAccount) throws DuplicateUsernameException, BadRequestException
+    public ResponseEntity<Account> userRegistration(@RequestBody Account newAccount) 
     {
-        Account account = accountService.createNewAccount(newAccount);
-        return ResponseEntity.ok(account);
+        Account registeredAccount = accountService.createNewAccount(newAccount);
+        return ResponseEntity.ok(registeredAccount);
+    }
+
+
+
+
+    // Get Method handler to login a user to his/her account
+
+    @PostMapping("/login")
+    public ResponseEntity<Account> login(@RequestBody Account loginAccount) 
+    {
+        Account loggedInAccount = accountService.verifyLogin(loginAccount);
+        return ResponseEntity.ok(loggedInAccount);
     }
 
 
@@ -59,5 +72,13 @@ public class SocialMediaController {
     public String handlebadRequest(BadRequestException ex)
     {
         return " Registration not successful " + ex.getMessage();
+    }
+
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleUnauthorised(UnauthorizedException ex)
+    {
+        return "Login not successful" + ex.getMessage();
     }
 }
