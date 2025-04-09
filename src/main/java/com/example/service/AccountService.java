@@ -12,17 +12,20 @@ import com.example.exception.*;
 @Service
 public class AccountService {
 
-    public AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
 
-    // Injecting the AccountRepository dependency into this class through Constructor
+    //  Injecting the AccountRepository dependency into this class through Constructor using @Autowired
     @Autowired
     public AccountService(AccountRepository accountRepository)
     {
         this.accountRepository = accountRepository;
     }
 
+    
 
-    // Creates a new account after validating the provided account details
+
+
+    //  Creates a new account after validating the provided account details
     public Account createNewAccount(Account newAccount) 
     {
         // Retrieving the account with the username to check if the account with the provided username already exists
@@ -48,7 +51,9 @@ public class AccountService {
 
 
 
-    // Logs into the account after validating the account credentials
+
+
+    //  Logs into the account after validating the account credentials
     public Account verifyLogin(Account loginAccount)
     {
         // Retrieving the account with the username to check if the account with the provided username already exists
@@ -66,6 +71,14 @@ public class AccountService {
         throw new UnauthorizedException("Account with username/password does not exist. Please enter the valid credentials");
     }
 
+
+
+
+
+
+
+
+    
 
   
 }

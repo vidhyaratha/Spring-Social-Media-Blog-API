@@ -1,14 +1,17 @@
 package com.example.controller;
 
 import org.springframework.web.bind.annotation.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.exception.BadRequestException;
 import com.example.exception.DuplicateUsernameException;
 import com.example.exception.UnauthorizedException;
 import com.example.service.AccountService;
+import com.example.service.MessageService;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -19,13 +22,18 @@ import com.example.service.AccountService;
 @RestController
 public class SocialMediaController {
 
-    public AccountService accountService;
+    private final AccountService accountService;
 
-    // Injecting the AccountService dependency into this class through Constructor
+    private final MessageService messageService;
+
+    //Injecting the AccountService, MessageService dependencies into this class through Constructor using @Autowired
     @Autowired
-    public SocialMediaController(AccountService accountService){
+    public SocialMediaController(AccountService accountService, MessageService messageService){
         this.accountService = accountService;
+        this.messageService = messageService;
     }
+
+
 
 
 
@@ -41,7 +49,7 @@ public class SocialMediaController {
 
 
 
-    // Get Method handler to login a user to his/her account
+    // Post Method handler to login a user to his/her account
 
     @PostMapping("/login")
     public ResponseEntity<Account> login(@RequestBody Account loginAccount) 
@@ -52,6 +60,26 @@ public class SocialMediaController {
 
 
 
+
+
+    // Post Method handler to create a new message
+
+    @PostMapping("/messages")
+    public ResponseEntity<Message> createNewMessage(@RequestBody Message newMessage)
+    {
+        Message createdMessage = messageService.validateUserAndCreateNewMessage(newMessage);
+        return ResponseEntity.ok(createdMessage);
+    }
+
+
+
+
+
+    
+
+
+
+    
 
 
 
