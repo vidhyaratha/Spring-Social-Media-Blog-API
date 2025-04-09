@@ -61,4 +61,18 @@ public class MessageService {
 
 
 
+
+
+
+    //  Retrieves the message by message id and returns it even if there is no message/if it's empty
+    public Message retrieveMessageById(int messageId)
+    {
+        Optional<Message> retrievedMessage = messageRepository.findById(messageId);
+        if(retrievedMessage.isEmpty())
+        {
+            return null;
+        }
+        return retrievedMessage.get();
+    }
+
 }

@@ -92,6 +92,20 @@ public class SocialMediaController {
 
 
 
+    //   Get Method Handler to retrieve a message by message id
+    @GetMapping("/messages/{message_id}")
+    public ResponseEntity<Message> getOneMessageGivenMessageId(@PathVariable("message_id") int msgId)
+    {
+        Message retrievedMessage = messageService.retrieveMessageById(msgId);
+        return ResponseEntity.ok(retrievedMessage);
+    }
+
+
+
+
+
+    
+
     // Handles the exceptions thrown by the Service 
 
     @ExceptionHandler(DuplicateUsernameException.class)
