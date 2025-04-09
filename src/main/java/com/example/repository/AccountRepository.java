@@ -9,7 +9,7 @@ import com.example.entity.Account;
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Integer> {
 
-    // Used property expression to retrieve the user account by username property of Account 
+    // Used Spring Data JPA's property expression to retrieve the user account by username property of Account 
     public Optional<Account> findByUsername(String username);
 
 

@@ -124,7 +124,8 @@ public class SocialMediaController {
 
 
 
-    //   Update method Handler to update the existing message with new message by message id
+
+    //   Update Method Handler to update the existing message with new message by message id
     @PatchMapping("/messages/{message_id}")
     public ResponseEntity<Integer> updateMessageGivenMessageId(@PathVariable int message_id, @RequestBody Message newMsgText)
     {
@@ -134,6 +135,23 @@ public class SocialMediaController {
 
 
     
+
+
+
+
+
+    //  Get Method Handler to retrieve all messages from user given account id
+    @GetMapping("/accounts/{account_id}/messages")
+    public ResponseEntity<List<Message>> gettAllMessagesFromUserGivenAccountId(@PathVariable int account_id)
+    {
+        List<Message> allMessages = messageService.retrieveAllMessagesByAccountId(account_id);
+        return ResponseEntity.ok(allMessages);
+    }
+
+
+
+
+
 
 
 

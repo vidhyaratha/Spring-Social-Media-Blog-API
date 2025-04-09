@@ -96,7 +96,6 @@ public class MessageService {
 
 
 
-
     //   Updates the  existing message with the new text message by message id 
     public int updateMessageById(int msgId, Message newTextMsg)
     {
@@ -127,5 +126,17 @@ public class MessageService {
         }
        
 
+
+
+
+
+
+
+        //   Retrieves all the messages from the given account id
+        public List<Message> retrieveAllMessagesByAccountId(int accountId)
+        {
+            List<Message> messagesByAccountId = messageRepository.findByPostedBy(accountId);
+            return messagesByAccountId;
+        }
     
 }

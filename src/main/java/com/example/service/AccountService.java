@@ -70,15 +70,5 @@ public class AccountService {
         //  If the existing account is not present or if  it doesn't match, it throws an Unauthorized Exception which will be handled by the @ExceptionHandler
         throw new UnauthorizedException("Account with username/password does not exist. Please enter the valid credentials");
     }
-
-
-
-
-
-
-
-
-    
-
   
 }
